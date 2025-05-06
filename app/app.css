@@ -5,11 +5,153 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
+@layer base {
+  /* Base colors for document - lightmode is default for SSR */
+  html {
+    @apply bg-white text-gray-900;
+    color-scheme: light;
+  }
 
-  @media (prefers-color-scheme: dark) {
+  /* Dark mode colors applied only after hydration */
+  html.dark {
+    @apply bg-gray-950 text-gray-100;
     color-scheme: dark;
   }
+
+  /* Ensure body inherits theme colors */
+  body {
+    @apply min-h-screen bg-inherit text-inherit transition-colors duration-200;
+  }
+
+  /* Make sure all text elements inherit the proper colors */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  span,
+  button {
+    @apply text-inherit;
+  }
+
+  /* Links have explicit colors in both themes */
+  a {
+    @apply text-gray-900 hover:text-blue-600;
+  }
+
+  html.dark a {
+    @apply text-gray-100 hover:text-blue-400;
+  }
+
+  /* Typography styles for prose content */
+  .prose h1 {
+    @apply text-3xl font-bold my-6 text-gray-900;
+  }
+
+  html.dark .prose h1 {
+    @apply text-white;
+  }
+
+  .prose h2 {
+    @apply text-2xl font-bold my-5 text-gray-900;
+  }
+
+  html.dark .prose h2 {
+    @apply text-white;
+  }
+
+  .prose h3 {
+    @apply text-xl font-bold my-4 text-gray-900;
+  }
+
+  html.dark .prose h3 {
+    @apply text-white;
+  }
+
+  .prose p {
+    @apply mb-4 text-gray-800;
+  }
+
+  html.dark .prose p {
+    @apply text-gray-200;
+  }
+
+  .prose ul {
+    @apply list-disc my-4 ml-6 text-gray-800;
+  }
+
+  html.dark .prose ul {
+    @apply text-gray-200;
+  }
+
+  .prose ol {
+    @apply list-decimal my-4 ml-6 text-gray-800;
+  }
+
+  html.dark .prose ol {
+    @apply text-gray-200;
+  }
+
+  .prose li {
+    @apply mb-2;
+  }
+
+  .prose pre {
+    @apply bg-gray-100 p-4 rounded-md overflow-x-auto my-6;
+  }
+
+  html.dark .prose pre {
+    @apply bg-gray-800;
+  }
+
+  .prose code {
+    @apply bg-gray-100 px-1 py-0.5 rounded text-sm text-gray-800;
+  }
+
+  html.dark .prose code {
+    @apply bg-gray-800 text-gray-200;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-gray-300 pl-4 py-2 my-4 italic text-gray-700;
+  }
+
+  html.dark .prose blockquote {
+    @apply border-gray-700 text-gray-300;
+  }
+}
+
+/* Explicit text color overrides for dark mode */
+html.dark .text-gray-900 {
+  @apply text-gray-100;
+}
+
+html.dark .text-gray-800 {
+  @apply text-gray-200;
+}
+
+html.dark .text-gray-700 {
+  @apply text-gray-300;
+}
+
+html.dark .text-gray-600 {
+  @apply text-gray-400;
+}
+
+/* Custom animation for transitions */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out forwards;
 }
